@@ -6,7 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Modal } from "@/components/ui/modal";
 import { useStoreModal } from '@/hooks/use-store-modal';
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import {
+        Form,
+        FormControl,
+        FormField,
+        FormItem,
+        FormLabel,
+        FormMessage
+    } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -50,6 +57,7 @@ export const StoreModal = () => {
                                     <FormControl>
                                         <Input placeholder="E-Commerce"{...field}/>
                                     </FormControl>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                             />
