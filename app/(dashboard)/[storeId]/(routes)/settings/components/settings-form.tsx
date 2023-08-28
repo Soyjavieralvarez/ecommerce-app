@@ -11,7 +11,8 @@ import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
-import { Form } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Input } from '@/components/ui/input';
 
 
 interface SettingsFormProps {
@@ -62,7 +63,18 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
                     <div className="grid grid-cols-3 gap-8">
-
+                        <FormField 
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Name</FormLabel>
+                                    <FormControl>
+                                        <Input disabled={loading} placeholder='Store name'{...field}/>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
                     </div>
                 </form>
             </Form>
