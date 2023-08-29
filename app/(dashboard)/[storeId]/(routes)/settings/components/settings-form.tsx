@@ -42,7 +42,21 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     const form = useForm<SettingFormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: initialData
-    })
+    });
+
+    const onDelte = async () => {
+        try {
+            setLoading(true)
+            await axios.delete(`/api/stores/${params.storeId}`)
+        } catch (error) {
+            toast.error("Make sure you removed all products and categories first.");
+            router.refresh();
+            router.push("/")
+        } finally {
+            setLoading(false)
+            setOpen(false)
+        }
+    }
 
     const onSubmit = async (data: SettingFormValues) => {
         try {
