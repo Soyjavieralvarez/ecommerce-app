@@ -126,7 +126,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                                     Name
                                 </FormLabel>
                                 <FormControl>
-                                    <Input disabled={loading} placeholder='Category name' />
+                                    <Input disabled={loading} placeholder='Category name' {...field}/>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
