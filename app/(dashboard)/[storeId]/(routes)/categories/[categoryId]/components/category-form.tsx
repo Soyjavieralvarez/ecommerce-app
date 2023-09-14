@@ -2,7 +2,7 @@
 
 import React from 'react';
 import * as z from "zod";
-import { Category } from "@prisma/client";
+import { Billboard, Category } from "@prisma/client";
 import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +17,7 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
 import { AlertModal } from '@/components/modals/alert-modal';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const formSchema = z.object({
     name: z.string().min(1),
@@ -27,10 +28,12 @@ type CategoryFormValues = z.infer<typeof formSchema>;
 
 interface CategoryFormProps {
     initialData: Category | null;
+    billboards: Billboard[];
 }
 
 export const CategoryForm: React.FC<CategoryFormProps> = ({
-    initialData
+    initialData,
+    billboards
 }) => {
     const params = useParams();
     const router = useRouter();
@@ -114,15 +117,51 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
                     <div className="grid grid-cols-3 gap-8">
-                        <FormField 
+                        <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>
+                                    Name
+                                </FormLabel>
+                                <FormControl>
+                                    <Input disabled={loading} placeholder='Category name' />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                    <FormField 
                             control={form.control}
-                            name="name"
+                            name="billboardId"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Name</FormLabel>
-                                    <FormControl>
-                                        <Input disabled={loading} placeholder='Category name'{...field}/>
-                                    </FormControl>
+                                    <FormLabel>Billboard</FormLabel>
+                                    <Select disabled={loading}
+                                    onValueChange={field.onChange}
+                                    value={field.value}
+                                    defaultValue={field.value}
+                                    >
+                                        <FormControl>
+                                         <SelectTrigger >
+                                            <SelectValue
+                                            defaultValue={field.value}
+                                            placeholder='Select a billboard'
+                                            />
+                                         </SelectTrigger>                      
+                                        </FormControl>
+                                        <SelectContent>
+                                            {billboards.map((billboard) => (
+                                                <SelectItem
+                                                key={billboard.id}
+                                                value={billboard.id}
+                                                >
+                                                {billboard.label}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                     <FormMessage />
                                 </FormItem>
                             )}
